@@ -1,0 +1,25 @@
+name: APSEC
+on:
+  push:
+   branches:
+     - main
+     - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v2
+     - name: Checkmarx AST CLI Action
+       uses: checkmarx/ast-github-action@main #Github Action version
+       with:
+         project_name: ${{ github.repository }}
+         cx_tenant: baregio
+         base_uri: https://us.checkmarx.net
+         cx_client_id: ${{ secrets.CLIENT_ID }}
+         cx_client_secret: ${{ secrets.SECRET }}
+         branch: ${{ github.ref }}
+         additional_params:
+          --threshold "sast-high=1; sast-medium=100; sca-high=100"
+          --project-tags tag1,tag2,tag3
+          --tags tag
