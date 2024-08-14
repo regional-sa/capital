@@ -11,9 +11,15 @@ from app.models.schemas.users import UserInResponse, UserInUpdate, UserWithToken
 from app.resources import strings
 from app.services import jwt
 from app.services.authentication import check_email_is_taken, check_username_is_taken
+from sqlmodel import SQLModel, Field, create_engine, Session, select
 
 router = APIRouter()
 
+# Create the SQLite database
+sqlite_url = "sqlite:///./test.db"
+engine = create_engine(sqlite_url, echo=True)
+
+SQLModel.metadata.create_all(engine)
 
 @router.get("", response_model=UserInResponse, name="users:get-current-user")
 async def retrieve_current_user(
@@ -72,3 +78,14 @@ async def update_current_user(
             admin=user.admin
         ),
     )
+    
+@router.get("/vulnerable/")
+def vulnerable_get_user(username: str):
+    with Session(engine) as session:
+        # Vulnerable to SQL Injection
+        query = f"SELECT * FROM user WHERE username = '{username}'"
+        result = session.execute(query)
+        user = result.fetchone()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"id": user[0], "username": user[1], "email": user[2]}
