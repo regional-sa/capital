@@ -14,7 +14,7 @@ jobs:
        uses: checkmarx/ast-github-action@main #Github Action version
        with:
          project_name: ${{ github.repository }}
-         cx_tenant: baregio
+         cx_tenant: banregio
          base_uri: https://us.checkmarx.net
          cx_client_id: ${{ secrets.CLIENT_ID }}
          cx_client_secret: ${{ secrets.SECRET }}
