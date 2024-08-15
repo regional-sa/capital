@@ -15,7 +15,7 @@ jobs:
        with:
          project_name: ${{ github.repository }}
          cx_tenant: banregio
-         base_uri: https://ast.checkmarx.net/
+         base_uri: https://us.ast.checkmarx.net/
          cx_client_id: ${{ secrets.CLIENT_ID }}
          cx_client_secret: ${{ secrets.SECRET }}
          branch: ${{ github.ref }}
