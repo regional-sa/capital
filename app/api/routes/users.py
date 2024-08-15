@@ -14,7 +14,6 @@ from app.services.authentication import check_email_is_taken, check_username_is_
 from sqlmodel import SQLModel, Field, create_engine, Session, select
 
 router = APIRouter()
-
 # Create the SQLite database
 sqlite_url = "sqlite:///./test.db"
 engine = create_engine(sqlite_url, echo=True)
