@@ -22,4 +22,5 @@ jobs:
          additional_params:
           --threshold "sast-high=1; sast-medium=100; sca-high=100"
           --project-tags tag1,tag2,tag3
+          --sast-incremental
           --tags tag
