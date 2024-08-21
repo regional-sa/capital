@@ -42,6 +42,7 @@ async def retrieve_current_user(
     )
 
 
+
 @router.put("", response_model=UserInResponse, name="users:update-current-user")
 async def update_current_user(
     user_update: UserInUpdate = Body(..., embed=True, alias="user"),
