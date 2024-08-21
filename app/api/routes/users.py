@@ -17,8 +17,6 @@ router = APIRouter()
 # Create the SQLite database
 sqlite_url = "sqlite:///./test.db"
 engine = create_engine(sqlite_url, echo=True)
-
-
 SQLModel.metadata.create_all(engine)
 
 @router.get("", response_model=UserInResponse, name="users:get-current-user")
