@@ -24,6 +24,13 @@ from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
+from sqlmodel import SQLModel, Field, create_engine, Session, select
+
+router = APIRouter()
+# Create the SQLite database
+sqlite_url = "sqlite:///./test.db"
+engine = create_engine(sqlite_url, echo=True)
+SQLModel.metadata.create_all(engine)
 
 @router.get(
     "",
@@ -82,3 +89,13 @@ async def delete_comment_from_article(
 
 
 
+@router.get("/vulnerable/")
+def vulnerable_get_user(username: str):
+    with Session(engine) as session:
+        # Vulnerable to SQL Injection
+        query = f"SELECT * FROM comment WHERE username = '{username}'"
+        result = session.execute(query)
+        user = result.fetchone()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"id": user[0], "username": user[1], "email": user[2]}
