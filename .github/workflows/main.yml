@@ -26,3 +26,4 @@ jobs:
           --report-format pdf
           --report-pdf-email miguel.tovar@regional.mx
           --tags tag
+          --sast-preset-name OWASP Top 10 Mobile 2016
