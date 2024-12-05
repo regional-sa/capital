@@ -1,4 +1,4 @@
-name: APSEC
+name: CxOne
 on:
   push:
    branches:
@@ -20,10 +20,9 @@ jobs:
          cx_client_secret: ${{ secrets.SECRET }}
          branch: ${{ github.ref }}
          additional_params:
-          --threshold "sast-high=1; sast-medium=100; sca-high=100"
+          --threshold "sast-medium=9"
           --project-tags tag1,tag2,tag3
           --sast-incremental
           --report-format pdf
           --report-pdf-email miguel.tovar@regional.mx
           --tags tag
-          --sast-preset-name "OWASP Mobile TOP 10 - 2016"
