@@ -21,3 +21,24 @@ jobs:
             git add .
             git commit -m "New branch with current content only"
             
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v2
+     - name: Checkmarx AST CLI Action
+       uses: checkmarx/ast-github-action@main #Github Action version
+       with:
+         project_name: ${{ github.repository }}
+         cx_tenant: banregio
+         base_uri: https://us.ast.checkmarx.net/
+         cx_client_id: ${{ secrets.CLIENT_ID }}
+         cx_client_secret: ${{ secrets.SECRET }}
+         branch: temp-branch
+         additional_params:
+          --threshold "sast-medium=9"
+          --project-tags tag1,tag2,tag3
+          --sast-incremental
+          --report-format pdf
+          --report-pdf-email miguel.tovar@regional.mx
+          --tags tag
