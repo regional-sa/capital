@@ -24,10 +24,6 @@ jobs:
             git add .
             git commit -m "Create orphan branch from current content"
             git push origin temp-branch
-            
-        - name: Delete temporary branch
-          run: |
-            git push origin --delete ${{ github.event.inputs.branch_name }}
           
   build:
     runs-on: ubuntu-latest
