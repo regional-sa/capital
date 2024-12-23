@@ -17,18 +17,11 @@ jobs:
             git config --global user.email "githubactions@banregio.com"
             # Create a new branch (temp branch) from the current state
             git checkout --orphan temp-branch
-  
-            # Remove all history
-            git rm -rf .
-  
             # Commit the current content (without history)
             git add .
             git commit -m "New branch with current content only"
-  
-            # Push the temp branch to the remote
-            git push origin temp-branch
-
-          
+            git push origin $TEMP_BRANCH --force
+            
   build:
     runs-on: ubuntu-latest
     steps:
