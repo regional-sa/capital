@@ -5,6 +5,30 @@ on:
      - main
      - develop
 jobs:
+  create-orphan-branch:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout current branch
+          uses: actions/checkout@v4
+  
+        - name: Create orphan branch
+          run: |
+            git config --global user.name "banregio-githubactions"
+            git config --global user.email "githubactions@banregio.com"
+            git checkout --orphan temp-branch
+            git rm -rf .
+            git reset
+            cp -r . /tmp/content
+            git checkout main
+            cp -r /tmp/content/* .
+            git add .
+            git commit -m "Create orphan branch from current content"
+            git push origin temp-branch
+            
+        - name: Delete temporary branch
+          run: |
+            git push origin --delete ${{ github.event.inputs.branch_name }}
+          
   build:
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +42,7 @@ jobs:
          base_uri: https://us.ast.checkmarx.net/
          cx_client_id: ${{ secrets.CLIENT_ID }}
          cx_client_secret: ${{ secrets.SECRET }}
-         branch: ${{ github.ref }}
+         branch: temp-branch
          additional_params:
           --threshold "sast-medium=9"
           --project-tags tag1,tag2,tag3
